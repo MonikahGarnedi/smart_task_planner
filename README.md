@@ -205,6 +205,9 @@ Integration with project management tools (Notion, Trello, Asana).
 # Reference Images
 <img width="1920" height="1020" alt="image" src="https://github.com/user-attachments/assets/122f1aaf-d271-4eeb-9cf6-83d379fd1f9c" />
 
+# Demo Video
+https://drive.google.com/file/d/131E3pxUuVM_52fQxU9eCPorfvQKllQ_n/view?usp=sharing
+
 # License
 
 This project is open-source and available under the MIT License
