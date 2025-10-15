@@ -13,13 +13,11 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 
 def extract_number(text):
-    """Extracts numeric value from text (like 2 from '2 weeks')."""
     match = re.search(r'\d+', text)
     return int(match.group()) if match else 1
 
 
 def parse_timeframe(goal_text):
-    """Converts timeframe text (e.g., '2 weeks') into number of days."""
     text = goal_text.lower()
     if "week" in text:
         return extract_number(text) * 7
@@ -46,10 +44,8 @@ def generate_plan():
         if not goal:
             return jsonify({"error": "Please provide a valid goal"}), 400
 
-        # 🧭 Detect total duration in days
         total_days = parse_timeframe(goal)
 
-        # 🧠 Enhanced prompt — force GPT to fit inside given duration
         prompt = f"""
         You are a precise AI planner.
         Break down the following goal into realistic, actionable tasks.
@@ -82,8 +78,6 @@ def generate_plan():
           }}
         ]
         """
-
-        # 🔗 Query GPT
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
@@ -95,13 +89,11 @@ def generate_plan():
 
         raw_output = response.choices[0].message.content.strip()
 
-        # 🧾 Extract JSON
         json_match = re.search(r'\[.*\]', raw_output, re.DOTALL)
         if not json_match:
             return jsonify({"goal": goal, "plan": [], "error": "Invalid LLM output."})
         tasks = json.loads(json_match.group(0))
 
-        # 🔢 Parse and sum durations
         def days_from_str(s):
             m = re.search(r'[\d.]+', s)
             return float(m.group()) if m else 0
@@ -110,14 +102,12 @@ def generate_plan():
         if total_model_days == 0:
             total_model_days = total_days
 
-        # ⚖️ Normalize to fit inside target days
         scale = total_days / total_model_days
         for t in tasks:
             d = days_from_str(t.get("duration", "1"))
             adjusted = max(0.25, round(d * scale, 2))
             t["duration"] = f"{adjusted} days"
 
-        # ✅ Return proper JSON
         return jsonify({
             "goal": goal,
             "total_requested_days": total_days,
@@ -130,3 +120,4 @@ def generate_plan():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
