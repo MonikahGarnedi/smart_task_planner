@@ -30,7 +30,7 @@ document.getElementById("generateBtn").addEventListener("click", async () => {
     }
 
     const tasks = data.plan;
-    const tf = data.timeframe_text || `${data.total_days} days`;
+   // const tf = data.timeframe_text || `${data.total_days} days`
 
     let outputText = `Goal: ${data.goal}\nTimeline: ${tf}\n\n`;
 
@@ -49,6 +49,7 @@ document.getElementById("generateBtn").addEventListener("click", async () => {
     planOutput.textContent = `Error connecting to backend: ${err}`;
   }
 });
+
 
 
 
