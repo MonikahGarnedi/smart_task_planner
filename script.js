@@ -31,7 +31,7 @@ document.getElementById("generateBtn").addEventListener("click", async () => {
 
     const tasks = data.plan;
 
-    // ✅ Removed the timeline display
+    
     let outputText = `Goal: ${data.goal}\n\n`;
 
     if (Array.isArray(tasks)) {
@@ -54,3 +54,4 @@ document.getElementById("generateBtn").addEventListener("click", async () => {
     planOutput.textContent = `Error connecting to backend: ${err}`;
   }
 });
+
