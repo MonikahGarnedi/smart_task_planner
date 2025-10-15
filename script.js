@@ -30,26 +30,27 @@ document.getElementById("generateBtn").addEventListener("click", async () => {
     }
 
     const tasks = data.plan;
-   // const tf = data.timeframe_text || `${data.total_days} days`
 
-    let outputText = `Goal: ${data.goal}\nTimeline: ${tf}\n\n`;
+    // ✅ Removed the timeline display
+    let outputText = `Goal: ${data.goal}\n\n`;
 
-    tasks.forEach((t, i) => {
-      outputText += `${i + 1}. ${t.task || "Untitled Task"}\n`;
-      outputText += `   Max Duration: ${t.duration || "—"}\n`;
-      outputText += `   Depends on: ${t.depends_on || "—"}\n`;
-      if (t.description) outputText += `   Description: ${t.description}\n`;
-      outputText += `\n`;
-    });
+    if (Array.isArray(tasks)) {
+      tasks.forEach((t, i) => {
+        outputText += `${i + 1}. ${t.task || "Untitled Task"}\n`;
+        outputText += `   Max Duration: ${t.duration || "—"}\n`;
+        outputText += `   Depends on: ${t.depends_on || "—"}\n`;
+        if (t.description) outputText += `   Description: ${t.description}\n`;
+        outputText += `\n`;
+      });
+    } else {
+      outputText += typeof tasks === "string" ? tasks : JSON.stringify(tasks, null, 2);
+    }
 
     planOutput.textContent = outputText;
+
   } catch (err) {
     loading.classList.add("hidden");
     resultDiv.classList.remove("hidden");
     planOutput.textContent = `Error connecting to backend: ${err}`;
   }
 });
-
-
-
-
