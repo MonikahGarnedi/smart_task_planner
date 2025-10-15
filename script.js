@@ -36,7 +36,7 @@ document.getElementById("generateBtn").addEventListener("click", async () => {
 
     tasks.forEach((t, i) => {
       outputText += `${i + 1}. ${t.task || "Untitled Task"}\n`;
-      outputText += `   Duration: ${t.duration || "—"}\n`;
+      outputText += `   Max Duration: ${t.duration || "—"}\n`;
       outputText += `   Depends on: ${t.depends_on || "—"}\n`;
       if (t.description) outputText += `   Description: ${t.description}\n`;
       outputText += `\n`;
@@ -49,5 +49,6 @@ document.getElementById("generateBtn").addEventListener("click", async () => {
     planOutput.textContent = `Error connecting to backend: ${err}`;
   }
 });
+
 
 
